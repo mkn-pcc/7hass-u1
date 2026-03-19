@@ -1,216 +1,223 @@
-let gameData = {
-    cases: [],
-    dialogue: {},
-    sources: {}
-};
-
-let gameState = {
+// Game State
+let state = {
     currentScene: 'title',
-    currentCase: null,
-    viewedSources: [],
     completedCases: [],
-    dialogueIndex: 0
+    activeCase: null,
+    viewedSources: [], // Tracks source IDs viewed in current case
+    dialogueIndex: 0,
+    currentDialogueSet: null,
+    data: {
+        cases: null,
+        dialogue: null,
+        sources: null
+    }
 };
 
-// --- Initialisation ---
+// DOM Elements
+const el = {
+    bg: document.getElementById('scene-bg'),
+    title: document.getElementById('title-screen'),
+    dialogue: document.getElementById('dialogue-container'),
+    npcName: document.getElementById('npc-name'),
+    npcPortrait: document.getElementById('npc-portrait'),
+    text: document.getElementById('dialogue-text'),
+    btnNext: document.getElementById('btn-next'),
+    hotspots: document.getElementById('hotspot-layer'),
+    progress: document.getElementById('progress-bar'),
+    progressText: document.getElementById('progress-text'),
+    sourceModal: document.getElementById('source-modal'),
+    quizModal: document.getElementById('quiz-modal'),
+    finalScreen: document.getElementById('final-screen')
+};
+
+// Initialize Game
 async function init() {
     try {
-        const [casesRes, dialRes, sourRes] = await Promise.all([
+        const [casesRes, dialogueRes, sourcesRes] = await Promise.all([
             fetch('data/cases.json'),
             fetch('data/dialogue.json'),
             fetch('data/sources.json')
         ]);
-        gameData.cases = await casesRes.json();
-        gameData.dialogue = await dialRes.json();
-        gameData.sources = await sourRes.json();
+        state.data.cases = await casesRes.json();
+        state.data.dialogue = await dialogueRes.json();
+        state.data.sources = await sourcesRes.json();
         
         setupEventListeners();
-        render();
+        showTitle();
     } catch (err) {
-        console.error("Error loading game data:", err);
+        console.error("Data loading failed:", err);
     }
 }
 
 function setupEventListeners() {
-    document.getElementById('start-btn').onclick = () => transitionTo('hub');
-    document.getElementById('help-btn').onclick = () => alert("Explore the museum. Click hotspots to find evidence. Complete all cases to win!");
-    document.getElementById('next-btn').onclick = handleNextDialogue;
-    document.getElementById('close-modal-btn').onclick = closeModal;
-    document.getElementById('final-report-btn').onclick = () => transitionTo('final');
+    document.getElementById('btn-start').onclick = startToHub;
+    document.getElementById('btn-help').onclick = () => alert("Click objects in the museum to investigate sources. Complete all cases to finish your report.");
+    el.btnNext.onclick = advanceDialogue;
+    document.getElementById('btn-close-source').onclick = closeSource;
+    document.getElementById('btn-replay').onclick = () => location.reload();
 }
 
-// --- Scene Management ---
-function transitionTo(scene, caseId = null) {
-    gameState.currentScene = scene;
-    gameState.currentCase = caseId;
-    gameState.viewedSources = [];
-    gameState.dialogueIndex = 0;
-    render();
+// Scene Transitions
+function showTitle() {
+    el.bg.style.backgroundImage = `url('assets/backgrounds/title_bg.png')`;
 }
 
-function render() {
-    const bg = document.getElementById('bg-layer');
-    const hub = document.getElementById('hub-screen');
-    const title = document.getElementById('title-screen');
-    const hotspots = document.getElementById('hotspot-layer');
-    const portrait = document.getElementById('portrait-layer');
-    const diag = document.getElementById('dialogue-container');
-
-    // Reset visibility
-    [hub, title, hotspots, diag].forEach(el => el.classList.add('hidden'));
-    portrait.innerHTML = '';
-    hotspots.innerHTML = '';
-
-    if (gameState.currentScene === 'title') {
-        title.classList.remove('hidden');
-        bg.style.backgroundImage = "url('assets/backgrounds/title_bg.png')";
-    } 
-    else if (gameState.currentScene === 'hub') {
-        hub.classList.remove('hidden');
-        bg.style.backgroundImage = "url('assets/backgrounds/hub_bg.png')";
-        renderHub();
-        showDialogue('curator', gameData.dialogue.intro);
-    } 
-    else if (gameState.currentScene === 'case') {
-        const caseObj = gameData.cases.find(c => c.id === gameState.currentCase);
-        bg.style.backgroundImage = `url(${caseObj.background})`;
-        renderHotspots(caseObj);
-        showDialogue(caseObj.guideId, [`Welcome to the ${caseObj.title} exhibit. Inspect the three marked items to begin.`]);
-    }
-    else if (gameState.currentScene === 'final') {
-        bg.style.backgroundImage = "url('assets/backgrounds/hub_bg.png')";
-        showDialogue('curator', gameData.dialogue.outro);
-    }
+function startToHub() {
+    state.currentScene = 'hub';
+    state.activeCase = null;
+    el.title.classList.add('hidden');
+    el.progress.classList.remove('hidden');
+    renderHub();
 }
 
-// --- Hub Logic ---
 function renderHub() {
-    const menu = document.getElementById('case-menu');
-    menu.innerHTML = '';
-    gameData.cases.forEach(c => {
-        const isComp = gameState.completedCases.includes(c.id);
-        const card = document.createElement('div');
-        card.className = `case-card ${isComp ? 'complete' : ''}`;
-        card.innerHTML = `
-            <h3>${c.title}</h3>
-            ${isComp ? `<img src="assets/ui/case_complete_stamp.png" class="complete-stamp">` : '<p>Incomplete</p>'}
-        `;
-        card.onclick = () => transitionTo('case', c.id);
-        menu.appendChild(card);
-    });
+    el.bg.style.backgroundImage = `url('assets/backgrounds/hub_bg.png')`;
+    el.hotspots.innerHTML = '';
+    el.hotspots.classList.remove('hidden');
+    el.dialogue.classList.remove('hidden');
+    
+    // NPC Hub Welcome
+    setDialogue('curator', state.completedCases.length === 0 ? 'hub_intro' : 'hub_return');
 
-    document.getElementById('progress-count').innerText = `${gameState.completedCases.length}/3`;
-    if (gameState.completedCases.length === 3) {
-        document.getElementById('final-report-btn').classList.remove('hidden');
-    }
-}
-
-// --- Case & Source Logic ---
-function renderHotspots(caseObj) {
-    const layer = document.getElementById('hotspot-layer');
-    layer.classList.remove('hidden');
-    caseObj.hotspots.forEach(hs => {
+    // Create Case Hotspots
+    state.data.cases.forEach((c, idx) => {
         const btn = document.createElement('div');
         btn.className = 'hotspot';
-        btn.style.left = hs.x + '%';
-        btn.style.top = hs.y + '%';
-        btn.onclick = () => openSource(hs.sourceId);
-        layer.appendChild(btn);
+        btn.style.left = `${25 + (idx * 25)}%`;
+        btn.style.top = `50%`;
+        
+        if (state.completedCases.includes(c.id)) {
+            btn.style.filter = 'grayscale(1) brightness(0.5)';
+            const stamp = document.createElement('img');
+            stamp.src = 'assets/ui/case_complete_stamp.png';
+            stamp.style.width = '40px';
+            btn.appendChild(stamp);
+        } else {
+            btn.onclick = () => enterCase(c);
+        }
+        el.hotspots.appendChild(btn);
+    });
+
+    // Check for Game Completion
+    if (state.completedCases.length === 3) {
+        const finalBtn = document.createElement('button');
+        finalBtn.className = 'img-btn';
+        finalBtn.innerHTML = `<img src="assets/ui/text_continue.png">`;
+        finalBtn.style.position = 'absolute';
+        finalBtn.style.bottom = '100px';
+        finalBtn.style.left = '50%';
+        finalBtn.onclick = () => el.finalScreen.classList.remove('hidden');
+        el.hotspots.appendChild(finalBtn);
+    }
+}
+
+function enterCase(caseData) {
+    state.currentScene = 'case';
+    state.activeCase = caseData;
+    state.viewedSources = [];
+    
+    el.bg.style.backgroundImage = `url('${caseData.background}')`;
+    el.hotspots.innerHTML = '';
+    
+    // Set NPC
+    setDialogue(caseData.guideId, 'intro', caseData.id);
+
+    // Create Source Hotspots
+    caseData.hotspots.forEach(hs => {
+        const h = document.createElement('div');
+        h.className = 'hotspot';
+        h.style.left = hs.x;
+        h.style.top = hs.y;
+        h.onclick = () => openSource(hs.sourceId);
+        el.hotspots.appendChild(h);
     });
 }
 
+// Dialogue Logic
+function setDialogue(npcId, setKey, caseId = null) {
+    const set = caseId ? state.data.dialogue.cases[caseId][setKey] : state.data.dialogue[setKey];
+    state.currentDialogueSet = set;
+    state.dialogueIndex = 0;
+    
+    el.npcName.innerText = npcId.toUpperCase().replace('_', ' ');
+    el.npcPortrait.src = `assets/portraits/${npcId}.png`;
+    
+    updateDialogueBox();
+}
+
+function updateDialogueBox() {
+    el.text.innerText = state.currentDialogueSet[state.dialogueIndex];
+    if (state.dialogueIndex < state.currentDialogueSet.length - 1) {
+        el.btnNext.classList.remove('hidden');
+    } else {
+        el.btnNext.classList.add('hidden');
+    }
+}
+
+function advanceDialogue() {
+    state.dialogueIndex++;
+    updateDialogueBox();
+}
+
+// Source Modal Logic
 function openSource(sourceId) {
-    const source = gameData.sources[sourceId];
+    const source = state.data.sources.find(s => s.id === sourceId);
+    if (!source) return;
+
     document.getElementById('source-title').innerText = source.title;
-    document.getElementById('source-type').innerText = source.type;
-    document.getElementById('source-description').innerText = source.caption;
-    document.getElementById('source-prompt').innerText = "Analysis Prompt: " + source.prompt;
+    document.getElementById('source-type').innerText = `Type: ${source.type} | Origin: ${source.sourceLabel}`;
     
     const imgCont = document.getElementById('source-image-container');
     imgCont.innerHTML = source.image ? `<img src="${source.image}">` : '';
     
-    document.getElementById('source-modal').classList.remove('hidden');
-
-    if (!gameState.viewedSources.includes(sourceId)) {
-        gameState.viewedSources.push(sourceId);
-    }
-}
-
-function closeModal() {
-    document.getElementById('source-modal').classList.add('hidden');
-    checkCaseCompletion();
-}
-
-function checkCaseCompletion() {
-    const currentCaseObj = gameData.cases.find(c => c.id === gameState.currentCase);
-    if (gameState.viewedSources.length === 3 && !gameState.completedCases.includes(gameState.currentCase)) {
-        showDialogue(currentCaseObj.guideId, ["You've seen all the evidence! One final question to close the file..."], true);
-    }
-}
-
-// --- Dialogue Logic ---
-function showDialogue(speakerKey, lines, isQuiz = false) {
-    const container = document.getElementById('dialogue-container');
-    container.classList.remove('hidden');
-    document.getElementById('nameplate').innerText = speakerKey.toUpperCase();
+    document.getElementById('source-description').innerText = source.caption;
+    document.getElementById('source-prompt').innerText = source.prompt;
     
-    // Set Portrait
-    const portLayer = document.getElementById('portrait-layer');
-    const portImg = speakerKey === 'curator' ? 'assets/portraits/curator.png' : 
-                   gameData.cases.find(c => c.guideId === speakerKey).portrait;
-    portLayer.innerHTML = `<img src="${portImg}">`;
+    el.sourceModal.classList.remove('hidden');
 
-    gameState.currentDialogueLines = lines;
-    gameState.dialogueIndex = 0;
-    gameState.isQuizTrigger = isQuiz;
-    updateDialogueText();
-}
-
-function updateDialogueText() {
-    document.getElementById('dialogue-text').innerText = gameState.currentDialogueLines[gameState.dialogueIndex];
-    const nextBtn = document.getElementById('next-btn');
-    nextBtn.classList.remove('hidden');
-    document.getElementById('dialogue-choices').innerHTML = '';
-}
-
-function handleNextDialogue() {
-    if (gameState.dialogueIndex < gameState.currentDialogueLines.length - 1) {
-        gameState.dialogueIndex++;
-        updateDialogueText();
-    } else {
-        if (gameState.isQuizTrigger) {
-            renderQuiz();
-        } else {
-            // End dialogue
-            if (gameState.currentScene === 'final') {
-                location.reload(); // Restart
-            }
-        }
+    if (!state.viewedSources.includes(sourceId)) {
+        state.viewedSources.push(sourceId);
     }
 }
 
-function renderQuiz() {
-    const caseObj = gameData.cases.find(c => c.id === gameState.currentCase);
-    const textEl = document.getElementById('dialogue-text');
-    const choiceEl = document.getElementById('dialogue-choices');
-    document.getElementById('next-btn').classList.add('hidden');
+function closeSource() {
+    el.sourceModal.classList.add('hidden');
+    // If all sources viewed, trigger quiz
+    if (state.viewedSources.length === 3) {
+        showQuiz();
+    }
+}
 
-    textEl.innerText = caseObj.quiz.question;
-    caseObj.quiz.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.innerText = opt;
-        btn.className = 'quiz-option'; // Add styling in CSS if desired
-        btn.onclick = () => {
-            if (String.fromCharCode(65 + idx) === caseObj.quiz.answer) {
-                gameState.completedCases.push(gameState.currentCase);
-                alert("Correct! Case File Updated.");
-                transitionTo('hub');
-            } else {
-                alert("Not quite. Review the evidence and try again.");
-            }
-        };
-        choiceEl.appendChild(btn);
+// Quiz Logic
+function showQuiz() {
+    const caseData = state.activeCase;
+    const quiz = caseData.completionQuestion;
+    
+    document.getElementById('quiz-question').innerText = quiz.question;
+    const optionsCont = document.getElementById('quiz-options');
+    optionsCont.innerHTML = '';
+    
+    quiz.options.forEach(opt => {
+        const b = document.createElement('button');
+        b.className = 'quiz-btn';
+        b.innerText = opt;
+        b.onclick = () => handleQuizAnswer(opt, quiz.correct);
+        optionsCont.appendChild(b);
     });
+    
+    el.quizModal.classList.remove('hidden');
+}
+
+function handleQuizAnswer(selected, correct) {
+    if (selected === correct) {
+        alert("Correct! You have completed this case file.");
+        state.completedCases.push(state.activeCase.id);
+        el.quizModal.classList.add('hidden');
+        el.progressText.innerText = `Cases Complete: ${state.completedCases.length}/3`;
+        renderHub();
+    } else {
+        alert("Not quite. Review the sources and try again.");
+    }
 }
 
 init();
