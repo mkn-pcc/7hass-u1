@@ -1,21 +1,21 @@
 {
   "hub_intro": [
     "Welcome to the Regional Heritage Museum. I'm the Curator.",
-    "We have three new exhibits focused on First Nations history and skills.",
-    "Choose a case file to begin your investigation. Click a folder to enter."
+    "We have three new exhibits focused on First Nations history and HASS skills.",
+    "Choose a case file to begin your investigation. Categorize every source you find!"
   ],
   "hub_return": [
-    "Welcome back, Researcher. What's next on our list?"
+    "Welcome back, Researcher. Which case will you document next?"
   ],
   "cases": {
     "case1": {
-      "intro": ["I'm the Exhibit Specialist. We're looking at the diversity of Indigenous cultures.", "Find the three sources in this room to understand how connection to Country is maintained."]
+      "intro": ["I'm the Exhibit Specialist. We're looking at the diversity of Indigenous cultures.", "Find the three sources in this room. Remember to identify if they are Primary or Secondary!"]
     },
     "case2": {
-      "intro": ["Research Lead here. People often think ancient Australia was isolated.", "These sources prove that trade networks were vast and international."]
+      "intro": ["Research Lead here. We're investigating ancient trade routes.", "Look for evidence of international connections. Is the evidence Social or Environmental?"]
     },
     "case3": {
-      "intro": ["Welcome to the Maritime Gallery. I'm the Curator.", "The Torres Strait Islanders have a unique seafaring history. Let's look at the evidence."]
+      "intro": ["Maritime Curator here. The Torres Strait has a seafaring history like no other.", "Check the artefacts. How do they show the Islander connection to the sea?"]
     }
   }
 }
