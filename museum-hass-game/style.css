@@ -1,5 +1,5 @@
 :root {
-    --text-color: #332211; /* Dark brown, highly readable */
+    --text-color: #332211; 
     --ui-gold: #8b5a2b;
     --ui-bg: #fdf6e3;
     --selected-gold: #c2915a;
@@ -16,7 +16,7 @@ body {
     height: 100vh;
     overflow: hidden;
     font-family: var(--main-font);
-    font-size: 16px; /* Slightly larger base for serif readability */
+    font-size: 16px; 
 }
 
 #game-container {
@@ -27,9 +27,7 @@ body {
     overflow: hidden;
 }
 
-/* =========================================
-   LAYER 1: SCENE (z-index: 10)
-   ========================================= */
+/* LAYER 1: SCENE */
 #scene-layer {
     position: absolute;
     top: 0;
@@ -62,11 +60,11 @@ body {
     width: 70px;
     height: 70px;
     background: url('assets/ui/hotspot_icon.png') no-repeat center/contain;
-    background-color: rgba(255,255,255,0.3); /* Fallback to spot them if img is missing */
+    background-color: rgba(255,255,255,0.3); 
     border-radius: 50%;
     cursor: pointer;
     animation: pulse 2s infinite;
-    pointer-events: auto; /* Ensures hotspots are always clickable */
+    pointer-events: auto; 
 }
 
 @keyframes pulse {
@@ -75,9 +73,7 @@ body {
     100% { transform: scale(1); opacity: 0.8; }
 }
 
-/* =========================================
-   LAYER 2: UI (z-index: 20)
-   ========================================= */
+/* LAYER 2: UI */
 #ui-layer {
     position: absolute;
     top: 0;
@@ -85,7 +81,17 @@ body {
     width: 100%;
     height: 100%;
     z-index: 20;
-    pointer-events: none; /* CRITICAL: Lets clicks pass through to hotspots */
+    pointer-events: none; 
+}
+
+#dev-credit {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 150px; /* You can adjust this width based on your asset */
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.8;
 }
 
 #progress-bar {
@@ -96,11 +102,11 @@ body {
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
-    font-family: sans-serif; /* Keep UI elements clean */
+    font-family: sans-serif; 
     letter-spacing: 1px;
 }
 
-/* DIALOGUE SYSTEM - PINNED BOTTOM RIGHT */
+/* DIALOGUE SYSTEM */
 #dialogue-container {
     position: absolute;
     bottom: 0;
@@ -126,7 +132,7 @@ body {
     margin-right: 40px;
     margin-bottom: 20px;
     z-index: 22;
-    pointer-events: auto; /* Restores clickability for the dialogue box */
+    pointer-events: auto; 
 }
 
 #dialogue-bg {
@@ -157,7 +163,7 @@ body {
 #npc-name {
     position: relative;
     z-index: 24;
-    color: var(--text-color); /* Fixed: Changed from white to dark brown */
+    color: var(--text-color); 
     font-family: sans-serif;
     font-weight: bold;
     font-size: 1.2rem;
@@ -170,7 +176,7 @@ body {
     top: 50px;
     left: 60px;
     width: 730px;
-    font-size: 1.3rem; /* Adjusted for Serif */
+    font-size: 1.3rem; 
     color: var(--text-color);
     line-height: 1.5;
     z-index: 25;
@@ -183,9 +189,7 @@ body {
     width: 120px;
 }
 
-/* =========================================
-   LAYER 3: OVERLAYS & MODALS (z-index: 30)
-   ========================================= */
+/* LAYER 3: OVERLAYS & MODALS */
 #overlay-layer {
     position: absolute;
     top: 0;
@@ -207,18 +211,51 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    pointer-events: auto; /* Modals block clicks from hitting the game */
+    pointer-events: auto; 
 }
 
 .modal-content {
     background: var(--ui-bg);
     padding: 30px;
     border-radius: 10px;
-    max-width: 800px;
+    width: 800px;
     border: 5px solid var(--ui-gold);
     text-align: center;
     max-height: 90%;
     overflow-y: auto;
+}
+
+/* DYNAMIC SOURCE BLOCKS */
+#source-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.source-block {
+    background: #fff;
+    border: 2px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.block-label {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--ui-gold);
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 /* UI BUTTONS & INTERACTIONS */
@@ -237,10 +274,9 @@ body {
     margin-bottom: 20px;
 }
 
-#source-image-container img {
+.source-block img {
     max-width: 100%;
-    max-height: 300px;
-    margin: 15px 0;
+    max-height: 350px;
     border: 2px solid #ccc;
 }
 
@@ -291,5 +327,4 @@ body {
 
 .quiz-btn:hover { background: #f0e6cc; }
 
-/* UTILITY */
 .hidden { display: none !important; }
