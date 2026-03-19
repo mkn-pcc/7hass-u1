@@ -9,17 +9,13 @@
 <body>
 
     <div id="game-container">
-        <div id="scene-bg"></div>
+        
+        <div id="scene-layer">
+            <div id="scene-bg"></div>
+            <div id="hotspot-layer" class="hidden"></div>
+        </div>
 
         <div id="ui-layer">
-            <div id="title-screen" class="overlay">
-                <img id="title-logo" src="assets/ui/title_logo.png" alt="7 HASS Skill Quest">
-                <div class="menu-buttons">
-                    <button id="btn-start" class="img-btn"><img src="assets/ui/text_start.png" alt="Start"></button>
-                    <button id="btn-help" class="img-btn"><img src="assets/ui/text_help.png" alt="Help"></button>
-                </div>
-            </div>
-
             <div id="progress-bar" class="hidden">
                 <div id="progress-text">Cases Complete: 0/3</div>
             </div>
@@ -36,8 +32,16 @@
                     <button id="btn-next" class="img-btn hidden"><img src="assets/ui/text_next.png" alt="Next"></button>
                 </div>
             </div>
+        </div>
 
-            <div id="hotspot-layer" class="hidden"></div>
+        <div id="overlay-layer">
+            <div id="title-screen" class="overlay">
+                <img id="title-logo" src="assets/ui/title_logo.png" alt="7 HASS Skill Quest">
+                <div class="menu-buttons">
+                    <button id="btn-start" class="img-btn"><img src="assets/ui/text_start.png" alt="Start"></button>
+                    <button id="btn-help" class="img-btn"><img src="assets/ui/text_help.png" alt="Help"></button>
+                </div>
+            </div>
 
             <div id="source-modal" class="modal hidden">
                 <div class="modal-content">
@@ -80,12 +84,12 @@
             <div id="final-screen" class="overlay hidden">
                 <div class="modal-content">
                     <h1>Investigation Complete</h1>
-                    <p>Excellent work, Researcher. You have correctly analyzed the evidence and completed your report for the Regional Heritage Museum.</p>
+                    <p>Excellent work, young researcher. You have correctly analysed the evidence and completed your report for the Parklands Regional Heritage Museum!</p>
                     <button id="btn-replay" class="img-btn"><img src="assets/ui/text_replay.png" alt="Replay"></button>
                 </div>
             </div>
-
         </div>
+
     </div>
 
     <script src="main.js"></script>
