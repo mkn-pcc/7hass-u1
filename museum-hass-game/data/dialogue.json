@@ -1,14 +1,21 @@
 {
-  "intro": [
-    "Welcome to the Regional Museum, Researcher.",
-    "I'm the Head Curator. We need help verifying three major exhibits.",
-    "Your job is to examine the sources, identify the evidence, and draw the right conclusions.",
-    "Select a case file from the table to begin your investigation."
+  "hub_intro": [
+    "Welcome to the Regional Heritage Museum. I'm the Curator.",
+    "We have three new exhibits focused on First Nations history and skills.",
+    "Choose a case file to begin your investigation. Click a folder to enter."
   ],
-  "outro": [
-    "Outstanding work, Researcher!",
-    "You have successfully analysed the sources and verified our history exhibits.",
-    "The museum is ready to open to the public thanks to your evidence-based approach.",
-    "Final Report Status: COMPLETE."
-  ]
+  "hub_return": [
+    "Welcome back, Researcher. What's next on our list?"
+  ],
+  "cases": {
+    "case1": {
+      "intro": ["I'm the Exhibit Specialist. We're looking at the diversity of Indigenous cultures.", "Find the three sources in this room to understand how connection to Country is maintained."]
+    },
+    "case2": {
+      "intro": ["Research Lead here. People often think ancient Australia was isolated.", "These sources prove that trade networks were vast and international."]
+    },
+    "case3": {
+      "intro": ["Welcome to the Maritime Gallery. I'm the Curator.", "The Torres Strait Islanders have a unique seafaring history. Let's look at the evidence."]
+    }
+  }
 }
