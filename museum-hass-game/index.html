@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 HASS: Skill Quest - Museum Investigation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="bg-layer"></div>
 
+        <div id="portrait-layer"></div>
+
+        <div id="hotspot-layer"></div>
+
+        <div id="ui-layer">
+            <div id="dialogue-container" class="hidden">
+                <div id="nameplate"></div>
+                <div id="dialogue-box">
+                    <p id="dialogue-text"></p>
+                    <div id="dialogue-choices"></div>
+                    <button id="next-btn" class="ui-button"><img src="assets/ui/text_next.png" alt="Next"></button>
+                </div>
+            </div>
+
+            <div id="title-screen" class="overlay">
+                <img src="assets/ui/title_logo.png" id="title-logo" alt="7 HASS Skill Quest">
+                <div class="menu-buttons">
+                    <button id="start-btn" class="ui-button"><img src="assets/ui/text_start.png" alt="Start"></button>
+                    <button id="help-btn" class="ui-button"><img src="assets/ui/text_help.png" alt="Help"></button>
+                </div>
+            </div>
+
+            <div id="hub-screen" class="overlay hidden">
+                <div id="progress-tracker">Progress: <span id="progress-count">0/3</span> Cases Complete</div>
+                <div id="case-menu"></div>
+                <button id="final-report-btn" class="ui-button hidden">SUBMIT FINAL REPORT</button>
+            </div>
+        </div>
+
+        <div id="source-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="source-title"></h2>
+                <h4 id="source-type"></h4>
+                <div id="source-image-container"></div>
+                <div id="source-description"></div>
+                <div id="source-prompt"></div>
+                <button id="close-modal-btn" class="ui-button"><img src="assets/ui/text_continue.png" alt="Continue"></button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
