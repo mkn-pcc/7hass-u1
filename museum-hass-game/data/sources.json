@@ -1,12 +1,12 @@
 [
   {
     "id": "case1_source1",
-    "title": "AIATSIS Map",
+    "title": "MAP AND TEXT EXCERPT: AIATSIS map of ancient Australia",
     "correctType": "secondary",
     "correctCats": ["Social", "Cultural"],
     "image": "assets/sources/case1_aiatsis_map.png",
     "caption": "Australia’s First Peoples have been living on the Australian continent for millennia. Aboriginal and Torres Strait Islander Australia is made up of many different and distinct groups, each with their own culture, customs, language and laws. They are the world’s oldest surviving culture; cultures that continue to be expressed in dynamic and contemporary ways.",
-    "sourceLabel": "AIATSIS",
+    "sourceLabel": "Map and text via AIATSIS",
     "prompt": "Look closely at the map and caption. What is the clearest message this source gives about Aboriginal and Torres Strait Islander peoples across Australia?",
     "insightQuestion": "Which idea is best supported by this source?",
     "insights": [
@@ -17,12 +17,13 @@
   },
   {
     "id": "case1_source2",
-    "title": "Acknowledging Country",
+    "title": "TEXT EXCERPT: Acknowledging Country",
+    "focus": "text",
     "correctType": "secondary",
     "correctCats": ["Social", "Cultural"],
     "image": "assets/sources/case1_aboriginal_flag.png",
     "caption": "Aboriginal and Torres Strait Islander peoples have experienced a long history of exclusion from Australian history books, the Australian flag, the Australian anthem and for many years, Australian democracy. This history of dispossession and colonisation lies at the heart of the disparity between Aboriginal and Torres Strait Islander and other Australians today. Including recognition in events, meetings and national symbols contributes to ending the exclusion that has been so damaging. Incorporating protocols recognises Aboriginal and Torres Strait Islander peoples as the Traditional Owners of land and shows respect.",
-    "sourceLabel": "Text excerpt, Reconciliation Australia; flag image via Australian Museum",
+    "sourceLabel": "Text via Reconciliation Australia; flag image via Australian Museum",
     "prompt": "This source explains why Acknowledgement of Country matters. What does it suggest these protocols are meant to do?",
     "insightQuestion": "According to the source, why are these protocols important?",
     "insights": [
@@ -33,12 +34,13 @@
   },
   {
     "id": "case1_source3",
-    "title": "Birds, Stories and Totems",
+    "title": "TEXT EXCERPT: Birds, Stories and Totems",
+    "focus": "text",
     "correctType": "secondary",
     "correctCats": ["Cultural", "Environmental"],
     "image": "assets/sources/case1_birds.png",
     "caption": "Australia's native birds feature prominently in First Nations stories. These stories are vital to the sharing of First Nations knowledge, language and culture. They reflect a powerful worldview towards Country, which values and respects the relationships between all living things. Many birds are also revered and respected as totems. Aunty Rhonda Radley explains: 'A totem is something that we look after... totem is like kin, like family. And as you look after family, you would look after your totem. And that means looking after its habitat, making sure that food's available for them.'",
-    "sourceLabel": "Text excerpt, Australian Museum",
+    "sourceLabel": "Text via Australian Museum",
     "prompt": "What does this source suggest about the role of stories and totems in First Nations cultures?",
     "insightQuestion": "Which interpretation best fits Aunty Rhonda Radley’s explanation of a totem?",
     "insights": [
@@ -49,7 +51,7 @@
   },
   {
     "id": "case2_source1",
-    "title": "Makasar Traders",
+    "title": "HISTORICAL DRAWING: Makasar Traders",
     "correctType": "primary",
     "correctCats": ["Social"],
     "image": "assets/sources/case2_makasar_traders.png",
@@ -65,12 +67,13 @@
   },
   {
     "id": "case2_source2",
-    "title": "Trade and Transformation",
+    "title": "TEXT EXCERPT: Trade and Transformation",
+    "focus": "text",
     "correctType": "secondary",
     "correctCats": ["Environmental"],
     "image": "assets/sources/case2_trepang.png",
     "caption": "The months that the Makasar spent harvesting were busy ones. Fishermen speared trepang from their praus (boats) or dived to spike them with weighted harpoons. On shore, trepang were gutted and boiled in iron cauldrons, then buried in hot sand to cool. Finally, they were dried or smoked over slow fires. Each April, as the monsoon winds began to blow, the fishermen departed, returning to Makassar with holds carrying trepang to be traded north to China.",
-    "sourceLabel": "Text excerpt, National Museum of Australia",
+    "sourceLabel": "Text via National Museum of Australia",
     "prompt": "This source describes how trepang was collected, processed and moved. What does that suggest about the trade network?",
     "insightQuestion": "Which detail best shows that this trade was organised and regular?",
     "insights": [
@@ -81,12 +84,13 @@
   },
   {
     "id": "case2_source3",
-    "title": "The Axe Heads Route",
+    "title": "TEXT EXCERPT: The Axe Heads Route",
+    "focus": "text",
     "correctType": "secondary",
     "correctCats": ["Social"],
     "image": "assets/sources/case2_manly_mogo.png",
-    "caption": "Ground-edged axes appeared 4,500 years ago. Known as a mogo by the Gadigal, they were used as tools to make nawi (bark canoes) as well as to cut wood, hunt or build shelters. Made from strong igneous or metamorphic rock, they were traded across nations from quarry sites. Research shows that trade routes of up to 200 km were not uncommon and one axe head in the museum’s collection travelled 1000 km from its source site.",
-    "sourceLabel": "Text excerpt (and image), Australian Museum",
+    "caption": "Ground-edged axes appeared 4,500 years ago. Known as a <b>mogo</b> by the Gadigal, they were used as tools to make nawi (bark canoes) as well as to cut wood, hunt or build shelters. Made from strong igneous or metamorphic rock, they were traded across nations from quarry sites. Research shows that trade routes of up to 200 km were not uncommon and one axe head in the museum’s collection travelled 1000 km from its source site.",
+    "sourceLabel": "Text and image via Australian Museum",
     "prompt": "What does this source suggest about the scale and sophistication of First Nations trade networks?",
     "insightQuestion": "Which conclusion is best supported by the evidence in this source?",
     "insights": [
@@ -97,12 +101,13 @@
   },
   {
     "id": "case3_source1",
-    "title": "Symbolism of the Flag",
+    "title": "TEXT EXCERPT: Symbolism of the Flag",
+    "focus": "text",
     "correctType": "secondary",
     "correctCats": ["Cultural"],
     "image": "assets/sources/case3_torres_strait_islander_flag.png",
     "caption": "The Torres Strait Islander flag design was adopted in 1992. The green stripes represent the land, the black stripes represent the people, and the blue represents the sea. In July 1995, the Government decided the flag should be proclaimed a 'Flag of Australia' under section 5 of the Flags Act 1953. It was so proclaimed by the Governor General on 14 July 1995.",
-    "sourceLabel": "Text excerpt, Torres Strait Regional Authority (TSRA); flag image via Australian Museum",
+    "sourceLabel": "Text via Torres Strait Regional Authority (TSRA); flag image via Australian Museum",
     "prompt": "What does the symbolism in this source suggest about Torres Strait Islander identity?",
     "insightQuestion": "Which interpretation best fits the details in the source?",
     "insights": [
@@ -113,14 +118,14 @@
   },
   {
     "id": "case3_source2",
-    "title": "Crocodile Mask",
+    "title": "HISTORICAL ITEM: Crocodile Mask",
     "correctType": "primary",
     "correctCats": ["Cultural"],
     "image": "assets/sources/case3_crocodile_mask.png",
     "caption": "Masks made of turtle shell were used in rituals and ceremonies in the Torres Strait Islands and made to represent ancestors with an associated totem, frequently the crocodile. The masks sometimes have the form of the human face or animals such as birds, fish or reptiles. Similar masks and headdresses made of plywood, bamboo or plastic continue to be created and used today.",
     "sourceLabel": "Image via Australian Museum",
     "prompt": "What does this artefact suggest about the importance of ceremony, ancestors and symbolism in Torres Strait Islander culture?",
-    "insightQuestion": "What was the main purpose of these masks according to the source?",
+    "insightQuestion": "What was the main purpose of crocodile masks such as the source in the image?",
     "insights": [
       "They were used in rituals and ceremonies to represent ancestors and associated totems.",
       "They were made mainly as practical tools for fishing and hunting."
@@ -129,11 +134,11 @@
   },
   {
     "id": "case3_source3",
-    "title": "Traditional Canoe",
+    "title": "HISTORICAL PHOTOGRAPH: Dauarti Canoe",
     "correctType": "primary",
     "correctCats": ["Environmental", "Social"],
     "image": "assets/sources/case3_traditional_canoe.png",
-    "caption": "Dauarti canoe belonging to Bamaga Family, Saibai, Torres Strait Island, June 1931. This source shows a watercraft from the Torres Strait, where travel by sea was an important part of life, movement and connection between islands.",
+    "caption": "<b>Dauarti canoe belonging to Bamaga Family, Saibai, Torres Strait Island, June 1931</b>. This source shows a watercraft from the Torres Strait, where travel by sea was an important part of life, movement and connection between islands.",
     "sourceLabel": "Image via Queensland Government",
     "prompt": "What does this source suggest about the role of the sea in Torres Strait Islander life?",
     "insightQuestion": "Which conclusion is best supported by this canoe source?",
