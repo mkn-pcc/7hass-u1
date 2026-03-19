@@ -77,14 +77,18 @@ function startToHub() {
     renderHub();
 }
 
-function renderHub() {
+function renderHub(skipDialogue = false) {
     el.bg.style.backgroundImage = `url('assets/backgrounds/hub_bg.png')`;
     el.hotspots.innerHTML = '';
     el.hotspots.classList.remove('hidden');
     
-    // Reset dialogue for the hub
-    el.dialogue.classList.remove('hidden');
-    setDialogue('curator', state.completedCases.length === 0 ? 'hub_intro' : 'hub_return');
+    // Only show dialogue if we aren't skipping it
+    if (!skipDialogue) {
+        el.dialogue.classList.remove('hidden');
+        setDialogue('curator', state.completedCases.length === 0 ? 'hub_intro' : 'hub_return');
+    } else {
+        el.dialogue.classList.add('hidden');
+    }
 
     // Generate Case Hotspots
     state.data.cases.forEach((c, idx) => {
@@ -146,7 +150,10 @@ function enterCase(caseData) {
     backBtn.style.position = 'absolute';
     backBtn.style.top = '20px';
     backBtn.style.right = '20px';
-    backBtn.onclick = renderHub;
+    
+    // Pass 'true' to skip the dialogue when returning from this button!
+    backBtn.onclick = () => renderHub(true); 
+    
     el.hotspots.appendChild(backBtn);
 }
 
